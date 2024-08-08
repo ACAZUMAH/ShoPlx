@@ -1,0 +1,25 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+      "allowJs": true,
+      "target": "ES2017",
+      "module": "CommonJS",
+      "outDir": "dist",
+      "rootDir": "./src",
+      "strictNullChecks": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "src/*"
+        ]
+      }
+  },
+  "include": [
+      "src/**/*.ts"],
+  "exclude": [
+      "node_modules"
+  ]
+}
