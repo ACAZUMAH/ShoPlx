@@ -1,11 +1,19 @@
 import { Request, Response, NextFunction } from 'express'
-import { customError } from '../customErrors/custom-errors'
+import createError from 'http-errors'
+
+/**
+ * error handler middleware
+ * @param err - error
+ * @param req - request
+ * @param res - response
+ * @param next - nextfunction
+ * @returns error response
+ */
 const errorHandler = async (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof customError) {
-    return res.status(err.statusCode).json({ msg: err.message })
+  if (createError.isHttpError(err)) {
+    return res.status(err.statusCode).send({errors: [{msg: err.message}]})
   }
-  //console.log(err)
-  return res.status(500).json({ msg: 'Something went wrong, please try again' })
+  return res.status(500).json({ msg: 'Internal Server Error' })
 }
 
 export default errorHandler

@@ -1,9 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const gen_tokens_1 = require("../services/auth-services/gen-tokens");
 const products_control_1 = require("../controllers/products-control");
 const router = (0, express_1.Router)();
+router.route('/catelog').get(products_control_1.getcatelogs);
+router.route('/categories').get(products_control_1.getCategories);
 router.route('/products').get(products_control_1.getAllProducts);
 router.route('/products/static').get(products_control_1.getAllProductsStatic);
 router.route('/products/search').get(products_control_1.searchProducts);
+router.route('/post-product').post(gen_tokens_1.verifyToken, products_control_1.postProducts);
 exports.default = router;

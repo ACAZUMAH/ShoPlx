@@ -2,7 +2,7 @@ import { Router } from "express";
 import { checkSchema } from "express-validator";
 import { registerationSchema } from "../middleware/userValidationSchema";
 import { confirmUser, getUser, registerUser } from "../controllers/users-control";
-import { verifyToken,verifyEmailToken } from "../auth-services/gen-tokens";
+import { verifyToken,verifyEmailToken } from "../services/auth-services/gen-tokens";
 
 const router = Router()
 
