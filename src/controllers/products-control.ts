@@ -1,17 +1,31 @@
 import { NextFunction, Request, Response } from "express";
-import { products } from '../models/schemas/product'
+import { products } from '../models/schemas/product';
+import { getAllCatalogs } from '../services/helpers/products/catalog';
+import { findcategory,returnName } from "../services/helpers/products/category";
 type queryType = {
     featured?: boolean,
     company?: string,
     name?: object
 }
-export const postProducts = async (req:Request, res:Response, next:NextFunction) =>{
-    
+
+export const getcatelogs = async (req: Request, res: Response) =>{
+    const catalogs: any = await getAllCatalogs()
+    return res.status(200).json({ success: true, data: await returnName(catalogs) })
+}
+
+export const getCategories = async (req: Request, res: Response) =>{
+    const { catalog } = req.query
+    const categories = await findcategory(catalog as string)
+    return res.status(200).json({ success: true, data: await returnName(categories) })
+}
+
+export const postProducts = async (req:Request, res:Response) =>{
 }
 export const getAllProductsStatic = async (req: Request, res: Response, next: NextFunction) => {
     const product = await products.find({}).sort('created_At').limit(40)
     res.status(200).json({ sucess: true, data: product, nbHits: product.length})
 }
+
 export const getAllProducts = async (req: Request, res: Response) => {
     const product = await products
     .find({price: { $gt: 30}})
@@ -19,6 +33,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
     .select('name price rating company')
     res.status(200).json({ sucess: true, data: product, nbHits: product.length})
 }
+
 export const searchProducts = async (req: Request, res: Response) => {
     const { featured, company, name, sort, fields, numericFilters } = req.query
     const queryObject: queryType = {}
@@ -50,7 +65,7 @@ export const searchProducts = async (req: Request, res: Response) => {
             }
         })
     }
-    console.log(queryObject)
+    //console.log(queryObject)
     let result = products.find(queryObject)
     if(sort){
        const sortList = (sort as string).split(',').join(' ')

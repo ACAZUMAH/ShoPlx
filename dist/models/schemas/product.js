@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.products = void 0;
 const mongoose_1 = require("mongoose");
 const productsSchema = new mongoose_1.Schema({
     name: {
@@ -22,14 +23,41 @@ const productsSchema = new mongoose_1.Schema({
         type: Date,
         default: Date.now()
     },
-    company: {
-        type: String,
-        enum: {
-            values: ['ikea', 'liddy', 'caressa', 'marcos'],
-            message: '{VALUE} is not supported'
-        }
-        //enum: ['ikea', 'liddy', 'caressa', 'marcos']
-    }
+    parent_categories: {
+        type: Array
+    },
+    brand: {
+        type: String
+    },
 });
-const products = (0, mongoose_1.model)('products', productsSchema);
-exports.default = products;
+const mobileproduct = new mongoose_1.Schema({
+    brand_id: {
+        type: String,
+        required: [true, 'brand name required']
+    },
+    model: {
+        type: String,
+        required: [true, 'model name required']
+    },
+    condition: {
+        type: String,
+        required: [true, 'condition required']
+    },
+    secondCondition: {
+        type: String
+    },
+    exchange: {
+        types: Boolean
+    },
+    description: {
+        type: String
+    },
+    price: {
+        type: String,
+        required: [true, 'price required']
+    },
+    phone: {
+        type: String
+    },
+});
+exports.products = (0, mongoose_1.model)('products', productsSchema);

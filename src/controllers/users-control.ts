@@ -1,57 +1,52 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import user from '../models/schemas/user';
-import { callCustomError } from '../customErrors/custom-errors';
-import { hashPasswrord, comparePassword } from '../utils/hash-passwords';
-import { genAccesToken,genRefreshToken } from '../auth-services/gen-tokens';
-import sendComfirmationEmail from '../auth-services/send-verication-code'
+import createError from 'http-errors';
+import { genAccesToken,genRefreshToken } from '../services/auth-services/gen-tokens';
+import sendComfirmationEmail from '../services/auth-services/send-verification-code'
+import { checkUserExist, createUser, findOneAndUpdate, findUserById } from '../services/helpers/users';
 
-export const registerUser = async (req: Request, res: Response, next: NextFunction) =>{
-    const { first_name, last_name, email, phone, password } = req.body
+/**
+ * controller to register user
+ * @param req - request
+ * @param res - response
+ * @returns - response when user is created and confirmation email is sent
+ * @throws - error when user already or validation fails
+ */
+export const registerUser = async (req: Request, res: Response) =>{
+    const { full_name,email,telephone,whatsup, password } = req.body
     const errors = validationResult(req)
     if(!errors.isEmpty()){
-        next(callCustomError(errors.array()[0].msg, 400))
-    }else{
-        const userExists = await user.findOne({ email })
-        if(userExists){
-            next(callCustomError('User already exists', 400))
-        }
-        const hashedPassword = await hashPasswrord(password)
-        const newUser = new user({
-            first_name,
-            last_name,
-            email,
-            phone,
-            password: hashedPassword
-        })
-        const savedUser = await newUser.save()
-        if(!savedUser){
-            next(new Error('Something went wrong!'))
-        }
-        const user_id = savedUser._id 
-        const email_token = genAccesToken(user_id)
-        sendComfirmationEmail(email, email_token)
-        
-        // const token = genRefreshToken(_id)
-        // res.status(201).json({ success: true, token})
+        throw new createError.BadRequest(errors.array()[0].msg)
     }
+    await checkUserExist(email)
+    const user = await createUser(full_name,email,telephone,whatsup,password)
+    const email_token = genAccesToken(user)
+    sendComfirmationEmail(email, email_token)
+    return res.status(201).json( { success: true, message: 'comfirmation email sent'})
 }
 
-export const confirmUser = async (req:Request, res:Response, next:NextFunction) =>{
+/**
+ * controller for verification and generating refresh token
+ * @param req - request
+ * @param res - response
+ * @returns send refresh token 
+ * @throws 
+ */
+export const confirmUser = async (req:Request, res:Response) =>{
     const _id = req.user.user_id
-    const updateUser = await user.findByIdAndUpdate( { _id: _id }, { isAuthenticated: true } )
-    if(!updateUser){
-        next(new Error('Something went wrong!'))
-    }
+    await findOneAndUpdate(_id)
     const refresh = genRefreshToken(_id)
     res.status(200).json({ token: refresh})
-    //res.header(refresh).redirect('http://localhost:3500/api/v1/ShopX/products/static')
 }
-export const getUser = async (req: Request, res: Response, next: NextFunction) =>{
+
+/**
+ * controller for getting user
+ * @param req - request
+ * @param res - response
+ * @returns user
+ */
+export const getUser = async (req: Request, res: Response) =>{
     const _id = req.user.user_id
-    const User = await user.findById(_id).select('-password')
-    if(!User){
-        next(callCustomError('User not found', 404))
-    }
+    const User = await findUserById(_id)
     res.status(200).json({ success: true, data: User})
 }

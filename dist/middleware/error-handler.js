@@ -1,11 +1,21 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const custom_errors_1 = require("../customErrors/custom-errors");
+const http_errors_1 = __importDefault(require("http-errors"));
+/**
+ * error handler middleware
+ * @param err - error
+ * @param req - request
+ * @param res - response
+ * @param next - nextfunction
+ * @returns error response
+ */
 const errorHandler = async (err, req, res, next) => {
-    if (err instanceof custom_errors_1.customError) {
-        return res.status(err.statusCode).json({ msg: err.message });
+    if (http_errors_1.default.isHttpError(err)) {
+        return res.status(err.statusCode).send({ errors: [{ msg: err.message }] });
     }
-    //console.log(err)
-    return res.status(500).json({ msg: 'Something went wrong, please try again' });
+    return res.status(500).json({ msg: 'Internal Server Error' });
 };
 exports.default = errorHandler;
