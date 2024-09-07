@@ -2,20 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerationSchema = void 0;
 exports.registerationSchema = {
-    first_name: {
+    full_name: {
         notEmpty: {
             errorMessage: 'First name required'
         },
         isString: {
             errorMessage: 'First name must be a string'
-        }
-    },
-    last_name: {
-        isString: {
-            errorMessage: 'Last name must be a string'
-        },
-        notEmpty: {
-            errorMessage: 'Last name required'
         }
     },
     email: {
@@ -24,10 +16,16 @@ exports.registerationSchema = {
             errorMessage: 'Email required'
         }
     },
-    phone: {
+    telephone: {
         isString: true,
         notEmpty: {
             errorMessage: 'Phone number required'
+        }
+    },
+    whatsapp_no: {
+        isString: true,
+        notEmpty: {
+            errorMessage: 'Whatsapp number required'
         }
     },
     password: {

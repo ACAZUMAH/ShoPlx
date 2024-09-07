@@ -25,11 +25,9 @@ export const genAccesToken = (id: object) =>{
 export const verifyEmailToken = (req: Request, res: Response, next: NextFunction) =>{
     const token = req.params.token
     if(token){
-        jwt.verify(token as string, secret, (err:any, decoded: any) =>{
-            if(err){
-                throw new createError.Forbidden('authentication failed!')
-            }
-            req.user = decoded
+        jwt.verify(token as string, secret, (err, user) =>{
+            if(err) throw new createError.Forbidden('authentication failed!')
+            req.user = user
             next()
         })
     }
@@ -55,16 +53,11 @@ export const genRefreshToken = (id: object) =>{
  */
 export const verifyToken = (req: Request, res: Response, next: NextFunction) =>{
     const authHeader = req.headers['authorization']
-    if(!authHeader){
-        throw new createError.Unauthorized('Unauthorized')
-        return 
-    }
+    if(!authHeader) throw new createError.Unauthorized('Unauthorized')
     const token = authHeader.split( ' ')[1]
-    jwt.verify(token, secret, (err: any, decoded: any) =>{
-        if(err){
-            throw new createError.Unauthorized('Unauthorized')
-        }
-        req.user = decoded
+    jwt.verify(token, secret, (err, user) =>{
+        if(err) throw new createError.Unauthorized('Unauthorized')
+        req.user = user
         next()
     })
 }

@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 })
 
 const sendConfirmationEmail = (email: string,email_token: string) =>{
-    const url = `http://localhost:3500/api/v1/shopX/confirm-email/${email_token}`
+    const url = `http://localhost:3500/api/v1/shoplx/confirm-email/${email_token}`
     transporter.sendMail({
         to: email,
         subject: 'Confirm your email',

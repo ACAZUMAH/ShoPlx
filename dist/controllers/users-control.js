@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUser = exports.confirmUser = exports.registerUser = void 0;
 const express_validator_1 = require("express-validator");
 const http_errors_1 = __importDefault(require("http-errors"));
-const gen_tokens_1 = require("../services/auth-services/gen-tokens");
+const gen_tokens_1 = require("../services/jwtservices/gen-tokens");
 const send_verification_code_1 = __importDefault(require("../services/auth-services/send-verification-code"));
 const users_1 = require("../services/helpers/users");
 /**
@@ -17,13 +17,12 @@ const users_1 = require("../services/helpers/users");
  * @throws - error when user already or validation fails
  */
 const registerUser = async (req, res) => {
-    const { full_name, email, telephone, whatsup, password } = req.body;
+    const { full_name, email, telephone, whatsapp_no, password } = req.body;
     const errors = (0, express_validator_1.validationResult)(req);
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty())
         throw new http_errors_1.default.BadRequest(errors.array()[0].msg);
-    }
     await (0, users_1.checkUserExist)(email);
-    const user = await (0, users_1.createUser)(full_name, email, telephone, whatsup, password);
+    const user = await (0, users_1.createUser)(full_name, email, telephone, whatsapp_no, password);
     const email_token = (0, gen_tokens_1.genAccesToken)(user);
     (0, send_verification_code_1.default)(email, email_token);
     return res.status(201).json({ success: true, message: 'comfirmation email sent' });

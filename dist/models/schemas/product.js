@@ -1,36 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.products = void 0;
+exports.mobilePhone = void 0;
 const mongoose_1 = require("mongoose");
-const productsSchema = new mongoose_1.Schema({
-    name: {
-        type: String,
-        required: [true, 'product name required']
-    },
-    price: {
-        type: Number,
-        required: [true, 'product price required']
-    },
-    featured: {
-        type: Boolean,
-        default: false
-    },
-    rating: {
-        type: Number,
-        default: 4.5
-    },
-    created_At: {
-        type: Date,
-        default: Date.now()
-    },
-    parent_categories: {
-        type: Array
-    },
-    brand: {
-        type: String
-    },
-});
 const mobileproduct = new mongoose_1.Schema({
+    category_id: {
+        type: String,
+        required: [true, 'category name required']
+    },
+    location: {
+        type: String,
+        required: [true, 'location required']
+    },
+    pictures_ref: [{
+            type: String
+        }],
     brand_id: {
         type: String,
         required: [true, 'brand name required']
@@ -46,6 +29,9 @@ const mobileproduct = new mongoose_1.Schema({
     secondCondition: {
         type: String
     },
+    color: {
+        type: String
+    },
     exchange: {
         types: Boolean
     },
@@ -59,5 +45,38 @@ const mobileproduct = new mongoose_1.Schema({
     phone: {
         type: String
     },
+    created_At: {
+        type: Date,
+        default: Date.now()
+    }
 });
-exports.products = (0, mongoose_1.model)('products', productsSchema);
+exports.mobilePhone = (0, mongoose_1.model)('products', mobileproduct);
+// const productsSchema = new Schema({
+//     name: {
+//         type: String,
+//         required: [true, 'product name required']
+//     },
+//     price: {
+//         type: Number,
+//         required: [true, 'product price required']
+//     },
+//     featured:{
+//         type: Boolean,
+//         default: false
+//     },
+//     rating: {
+//         type: Number,
+//         default: 4.5
+//     },
+//     created_At: {
+//         type: Date,
+//         default: Date.now()
+//     },
+//     parent_categories: {
+//         type: Array
+//     },
+//     brand: {
+//         type: String
+//     },
+// })
+//export const products = model('products', productsSchema)

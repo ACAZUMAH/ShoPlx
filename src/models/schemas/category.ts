@@ -6,10 +6,10 @@ const categorySchema = new Schema({
         required: [true, 'category name required'],
         trim: true
     },
-    parent_catalog:[{
+    parent_catalog:{
         type: Types.ObjectId,
         ref: 'catalog'
-    }],
+    },
     brands:[{
         type: Types.ObjectId,
         ref: 'brands'

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import createError from 'http-errors';
-import { genAccesToken,genRefreshToken } from '../services/auth-services/gen-tokens';
+import { genAccesToken,genRefreshToken } from '../services/jwtservices/gen-tokens';
 import sendComfirmationEmail from '../services/auth-services/send-verification-code'
 import { checkUserExist, createUser, findOneAndUpdate, findUserById } from '../services/helpers/users';
 
@@ -13,13 +13,13 @@ import { checkUserExist, createUser, findOneAndUpdate, findUserById } from '../s
  * @throws - error when user already or validation fails
  */
 export const registerUser = async (req: Request, res: Response) =>{
-    const { full_name,email,telephone,whatsup, password } = req.body
+    const { full_name,email,telephone,whatsapp_no, password } = req.body
     const errors = validationResult(req)
-    if(!errors.isEmpty()){
+
+    if(!errors.isEmpty())
         throw new createError.BadRequest(errors.array()[0].msg)
-    }
     await checkUserExist(email)
-    const user = await createUser(full_name,email,telephone,whatsup,password)
+    const user = await createUser(full_name,email,telephone,whatsapp_no,password)
     const email_token = genAccesToken(user)
     sendComfirmationEmail(email, email_token)
     return res.status(201).json( { success: true, message: 'comfirmation email sent'})

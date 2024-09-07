@@ -14,8 +14,8 @@ declare global {
     }
 }
 
-const notFound = (req: Request, res: Response) => 
-    res.status(404).send({errors: [{ message:'Route does not exist' }]})
+const notFound = (_req: Request, _res: Response) => 
+    _res.status(404).send({errors: [{ message:'Route does not exist' }]})
 
 const start = async () =>{
     try {

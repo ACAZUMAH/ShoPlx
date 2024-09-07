@@ -17,13 +17,13 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @returns returns user id
  * @throws throws error if user already exists
  */
-const createUser = async (full_name, email, telephone, whatsup, password) => {
+const createUser = async (full_name, email, telephone, whatsapp_no, password) => {
     const hash = await (0, hash_passwords_1.hashPasswrord)(password);
     const newUser = await user_1.default.create({
         full_name,
         email,
         telephone,
-        whatsup,
+        whatsapp_no,
         password: hash
     });
     if (!newUser) {

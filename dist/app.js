@@ -9,7 +9,7 @@ const error_handler_1 = __importDefault(require("./middleware/error-handler"));
 const connect_1 = __importDefault(require("./models/db/connect"));
 const main_router_1 = __importDefault(require("./routes/main-router"));
 require('dotenv').config();
-const notFound = (req, res) => res.status(404).send({ errors: [{ message: 'Route does not exist' }] });
+const notFound = (_req, _res) => _res.status(404).send({ errors: [{ message: 'Route does not exist' }] });
 const start = async () => {
     try {
         const app = (0, express_1.default)();

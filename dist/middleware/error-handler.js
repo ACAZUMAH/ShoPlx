@@ -13,6 +13,7 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @returns error response
  */
 const errorHandler = async (err, req, res, next) => {
+    console.log(err);
     if (http_errors_1.default.isHttpError(err)) {
         return res.status(err.statusCode).send({ errors: [{ msg: err.message }] });
     }

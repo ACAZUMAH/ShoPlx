@@ -1,4 +1,4 @@
-import { Schema, model,Types } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 const brandSchema = new Schema({
     name: {
@@ -9,7 +9,7 @@ const brandSchema = new Schema({
         type: Types.ObjectId,
         ref: 'category'
     }],
-    poducts_Id:[{
+    products_Ids:[{
         type: Types.ObjectId,
         ref: 'products'
     }]
