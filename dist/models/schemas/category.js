@@ -7,10 +7,10 @@ const categorySchema = new mongoose_1.Schema({
         required: [true, 'category name required'],
         trim: true
     },
-    parent_catalog: [{
-            type: mongoose_1.Types.ObjectId,
-            ref: 'catalog'
-        }],
+    parent_catalog: {
+        type: mongoose_1.Types.ObjectId,
+        ref: 'catalog'
+    },
     brands: [{
             type: mongoose_1.Types.ObjectId,
             ref: 'brands'

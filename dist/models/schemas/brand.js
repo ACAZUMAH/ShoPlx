@@ -10,7 +10,7 @@ const brandSchema = new mongoose_1.Schema({
             type: mongoose_1.Types.ObjectId,
             ref: 'category'
         }],
-    poducts_Id: [{
+    products_Ids: [{
             type: mongoose_1.Types.ObjectId,
             ref: 'products'
         }]

@@ -10,6 +10,7 @@ import createError from 'http-errors'
  * @returns error response
  */
 const errorHandler = async (err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err)
   if (createError.isHttpError(err)) {
     return res.status(err.statusCode).send({errors: [{msg: err.message}]})
   }

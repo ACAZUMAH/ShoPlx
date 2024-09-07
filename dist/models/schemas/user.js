@@ -15,7 +15,7 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    whatsup: {
+    whatsapp_no: {
         type: String,
         required: true
     },

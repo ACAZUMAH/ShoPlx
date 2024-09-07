@@ -12,13 +12,13 @@ import createError from 'http-errors'
  * @returns returns user id
  * @throws throws error if user already exists
  */
-export const createUser = async (full_name:string, email:string, telephone:string, whatsup:string, password:string) =>{
+export const createUser = async (full_name:string, email:string, telephone:string, whatsapp_no:string, password:string) =>{
     const hash = await hashPasswrord(password)
     const newUser = await user.create({
         full_name,
         email,
         telephone,
-        whatsup,
+        whatsapp_no,
         password: hash
     })
     if(!newUser){

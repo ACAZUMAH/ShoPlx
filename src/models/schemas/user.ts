@@ -14,7 +14,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    whatsup: {
+    whatsapp_no: {
         type: String,
         required: true
     },
