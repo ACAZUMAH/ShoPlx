@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMbileProuct = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
-const product_1 = require("../../../../models/schemas/product");
+const mobile_1 = __importDefault(require("../../../../models/schemas/products/mobile"));
 const category_1 = require("../category");
 const brands_1 = require("../brands");
 /**
@@ -15,7 +15,7 @@ const brands_1 = require("../brands");
  */
 const createMbileProuct = async (req) => {
     const { category_id, location, pictures, brand_id, model, condition, secondCondition, color, exchange, description, price, phone } = req.body;
-    const product = await product_1.mobilePhone.create({
+    const product = await mobile_1.default.create({
         category_id,
         location,
         pictures_ref: pictures,

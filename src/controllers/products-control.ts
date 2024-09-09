@@ -11,7 +11,6 @@ type queryType = {
     name?: object
 }
 
-
 /**
  * getting all the catalogs
  * @param req - Request 
@@ -23,7 +22,6 @@ export const getcatelogs = async (req: Request, res: Response) =>{
     return res.status(200).json({ success: true, data: catalogs })
 }
 
-
 /**
  * getting all categories
  * @param req - Request
@@ -32,7 +30,6 @@ export const getcatelogs = async (req: Request, res: Response) =>{
  */
 export const getCategories = async (req: Request, res: Response) =>{
     const { _id } = req.query
-    //const catalogy = await getCatelogById(_id as string)
     const categories = await findcategory(_id as string)
     return res.status(200).json({ success: true, data: categories })
 }

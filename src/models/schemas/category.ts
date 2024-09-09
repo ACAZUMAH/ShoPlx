@@ -14,6 +14,10 @@ const categorySchema = new Schema({
         type: Types.ObjectId,
         ref: 'brands'
     }],
+    types: [{
+        type: Types.ObjectId,
+        ref: 'type'
+    }],
     products_Ids:[{
         type: Types.ObjectId,
         ref: 'products'
