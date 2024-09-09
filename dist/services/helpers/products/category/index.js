@@ -16,7 +16,7 @@ const findcategory = async (_id) => {
     const catalogy = await (0, catalog_1.getCatelogById)(_id);
     const categories = [];
     for (const categoryId of catalogy.sub_categories) {
-        const categoryData = await category_1.default.findById(categoryId, { parent_catalog: 0, brands: 0, products_Ids: 0 });
+        const categoryData = await category_1.default.findById(categoryId, { parent_catalog: 0, brands: 0, products_Ids: 0, types: 0 });
         if (categoryData)
             categories.push(categoryData);
     }

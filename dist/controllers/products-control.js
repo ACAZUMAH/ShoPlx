@@ -29,7 +29,6 @@ exports.getcatelogs = getcatelogs;
  */
 const getCategories = async (req, res) => {
     const { _id } = req.query;
-    //const catalogy = await getCatelogById(_id as string)
     const categories = await (0, category_1.findcategory)(_id);
     return res.status(200).json({ success: true, data: categories });
 };

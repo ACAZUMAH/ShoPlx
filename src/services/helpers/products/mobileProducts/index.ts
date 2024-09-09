@@ -1,6 +1,6 @@
 import { Request } from "express";
 import createError from "http-errors";
-import { mobilePhone } from "../../../../models/schemas/product";
+import mobilePhone from "../../../../models/schemas/products/mobile";
 import { findCategoryByIdAndUpdate } from "../category";
 import { findBrandByIdAndUpdate } from "../brands";
 

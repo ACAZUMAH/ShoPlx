@@ -15,6 +15,10 @@ const categorySchema = new mongoose_1.Schema({
             type: mongoose_1.Types.ObjectId,
             ref: 'brands'
         }],
+    types: [{
+            type: mongoose_1.Types.ObjectId,
+            ref: 'type'
+        }],
     products_Ids: [{
             type: mongoose_1.Types.ObjectId,
             ref: 'products'
