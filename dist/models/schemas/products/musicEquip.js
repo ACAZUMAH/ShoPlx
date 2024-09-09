@@ -1,17 +1,18 @@
-import { Schema, model } from 'mongoose';
-
-const printerScannerSchema = new Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const musicEquipmentSchema = new mongoose_1.Schema({
     category_id: {
         type: String,
         required: [true, 'category name required']
     },
-    location:{
+    location: {
         type: String,
         required: [true, 'location required']
     },
     pictures_ref: [{
-        type: String
-    }],
+            type: String
+        }],
     title: {
         type: String,
         required: [true, 'title required']
@@ -20,34 +21,32 @@ const printerScannerSchema = new Schema({
         type: String,
         required: [true, 'brand name required']
     },
-    model: {
-        type: String,
-        required: [true, 'model name required']
-    },
     type_id: {
         type: String,
         required: [true, 'type required']
     },
-    condition:{
+    condition: {
         type: String,
         required: [true, 'condition required']
+    },
+    exchange: {
+        types: Boolean
     },
     description: {
         type: String,
         required: [true, 'description required']
     },
-    price:{
+    price: {
         type: String,
         required: [true, 'price required']
     },
-    phone:{
+    phone: {
         type: String
     },
     created_At: {
         type: Date,
         default: Date.now()
     }
-})
-
-const printerScanner = model(' printers & scanners products', printerScannerSchema)
-export default printerScanner
+});
+const musicEquipment = (0, mongoose_1.model)('audio and music products', musicEquipmentSchema);
+exports.default = musicEquipment;

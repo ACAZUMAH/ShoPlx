@@ -49,5 +49,5 @@ const mobileproduct = new mongoose_1.Schema({
         default: Date.now()
     }
 });
-const mobilePhone = (0, mongoose_1.model)('products', mobileproduct);
+const mobilePhone = (0, mongoose_1.model)('Mobile Phones products', mobileproduct);
 exports.default = mobilePhone;

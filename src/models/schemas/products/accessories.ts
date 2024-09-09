@@ -51,5 +51,5 @@ const accesoriesProducts = new Schema({
     }
 })
 
-const accesories = model('products', accesoriesProducts)
-export default accesories
+const accessories = model('Accessories products', accesoriesProducts)
+export default accessories

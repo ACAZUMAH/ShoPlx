@@ -71,5 +71,5 @@ const laptopProducts = new Schema({
     },
 })
 
-const laptop = model('products', laptopProducts)
+const laptop = model('Laptops products', laptopProducts)
 export default laptop

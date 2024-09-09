@@ -2,9 +2,11 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import createError from 'http-errors';
 //import { products } from '../models/schemas/product';
-import { getAllCatalogs, getCatelogById } from '../services/helpers/products/catalog';
-import { findcategory } from "../services/helpers/products/category";
+import { getAllCatalogs  } from '../services/helpers/products/catalog';
+import { findcategory, findProductsOfcategory } from "../services/helpers/products/category";
 import { createMbileProuct } from "../services/helpers/products/mobileProducts";
+import { findCategoryBrand } from "../services/helpers/products/brands";
+import { findCategoryType } from "../services/helpers/products/types";
 type queryType = {
     featured?: boolean,
     company?: string,
@@ -12,41 +14,69 @@ type queryType = {
 }
 
 /**
- * getting all the catalogs
+ * control for getting all the catalogs
  * @param req - Request 
  * @param res - Response
  * @returns all catalogs
  */
-export const getcatelogs = async (req: Request, res: Response) =>{
+export const getcatelogs = async (_req: Request, _res: Response) =>{
     const catalogs: any = await getAllCatalogs()
-    return res.status(200).json({ success: true, data: catalogs })
+    return _res.status(200).json({ success: true, data: catalogs })
 }
 
 /**
- * getting all categories
+ * control for getting all categories in a catalog using the catalog id
  * @param req - Request
  * @param res - Response
  * @returns all categories
  */
-export const getCategories = async (req: Request, res: Response) =>{
-    const { _id } = req.query
+export const getCategories = async (_req: Request, _res: Response) =>{
+    const { _id } = _req.query
     const categories = await findcategory(_id as string)
-    return res.status(200).json({ success: true, data: categories })
+    return _res.status(200).json({ success: true, data: categories })
 }
 
 /**
- * post products to the database
+ * control for getting all brands of a category using the category id
+ * @param req - Request
+ * @param res - Response
+ * @returns all brands
+ */
+export const getBrands = async (_req: Request, _res: Response) =>{
+    const { _id } = _req.query
+    const brands = await findCategoryBrand(_id as string)
+    return _res.status(200).json({ success: true, data: brands })
+}
+/**
+ * control for getting all types of a category using the category id
+ * @param _req - Request
+ * @param _res - Response
+ * @returns all types
+ */
+export const getTypes = async (_req: Request, _res: Response) =>{
+    const { _id } = _req.query
+    const types = await findCategoryType(_id as string)
+    return _res.status(200).json({ success: true, data: types })
+}
+/**
+ * a control for posting  products to the database
  * @param req - Request 
  * @param res - Response
  * @return success message
  * @throws error if input is invalid
  */
-export const postProducts = async (req:Request, res:Response) =>{
-    const errors = validationResult(req)
+export const postProducts = async (_req:Request, _res:Response) =>{
+    const errors = validationResult(_req)
     if(!errors.isEmpty())
         throw new createError.BadRequest(errors.array()[0].msg)
-    if(await createMbileProuct(req))
-        return res.status(200).json({ success: true })
+    if(await createMbileProuct(_req))
+        return _res.status(200).json({ success: true })
+}
+
+export const getProductsOfcategory = async (_req: Request, _res: Response) =>{
+    const { _id } = _req.query
+    const products = await findProductsOfcategory(_id as string)
+    return _res.status(200).json({ success: true, data: products })
 }
 
 

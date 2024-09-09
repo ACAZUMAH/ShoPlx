@@ -60,5 +60,5 @@ const  tabletProducts = new Schema({
     }
 })
 
-const tablets = model('products', tabletProducts)
+const tablets = model('tablets products', tabletProducts)
 export default tablets
