@@ -50,5 +50,5 @@ const musicEquipmentSchema = new Schema({
     }
 })
 
-const musicEquipment = model('products', musicEquipmentSchema)
+const musicEquipment = model('audio and music products', musicEquipmentSchema)
 export default musicEquipment

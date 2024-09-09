@@ -54,5 +54,5 @@ const smartWatchProducts = new Schema({
     }
 })
 
-const smartWatch = model('products', smartWatchProducts)
+const smartWatch = model('smart watches products', smartWatchProducts)
 export default smartWatch

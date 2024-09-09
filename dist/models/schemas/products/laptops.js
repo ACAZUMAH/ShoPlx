@@ -13,7 +13,7 @@ const laptopProducts = new mongoose_1.Schema({
     pictures_ref: [{
             type: String
         }],
-    type: {
+    type_id: {
         type: String,
         required: [true, 'type required']
     },
@@ -70,5 +70,5 @@ const laptopProducts = new mongoose_1.Schema({
         required: [true, 'description required']
     },
 });
-const laptop = (0, mongoose_1.model)('products', laptopProducts);
+const laptop = (0, mongoose_1.model)('Laptops products', laptopProducts);
 exports.default = laptop;

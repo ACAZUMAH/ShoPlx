@@ -25,7 +25,7 @@ const accesoriesProducts = new mongoose_1.Schema({
         type: String,
         required: [true, 'model name required']
     },
-    type: {
+    type_id: {
         type: String,
         required: [true, 'type required']
     },
@@ -51,5 +51,5 @@ const accesoriesProducts = new mongoose_1.Schema({
         default: Date.now()
     }
 });
-const accesories = (0, mongoose_1.model)('products', accesoriesProducts);
-exports.default = accesories;
+const accessories = (0, mongoose_1.model)('Accessories products', accesoriesProducts);
+exports.default = accessories;

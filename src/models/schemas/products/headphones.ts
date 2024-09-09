@@ -62,5 +62,5 @@ const headphoneSchema = new Schema({
     }
 })
 
-const headphones = model('products', headphoneSchema)
+const headphones = model('Head Phones products', headphoneSchema)
 export default headphones

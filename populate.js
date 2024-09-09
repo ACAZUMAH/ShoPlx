@@ -33,4 +33,4 @@ const start = async(name) =>{
     }
 }
 
-start('Oriamo') 
+start('') 

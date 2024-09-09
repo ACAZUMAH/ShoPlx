@@ -1,6 +1,7 @@
 import brand from "../../../../models/schemas/brand";
 import createError from "http-errors";
 import { Types } from "mongoose";
+import { getCategoryById } from "../category";
 
 
 /**
@@ -15,4 +16,20 @@ export const findBrandByIdAndUpdate = async (_id: string, product_id: string | T
         throw new createError.BadRequest('brand not found')
     await brand.findByIdAndUpdate(_id, { $push: { products_Ids: product_id } })
     return true
+}
+
+/**
+ * find brands that belong to a particular category
+ * @param _id - category id
+ * @returns brands
+ * @throws error when category not found
+ */
+export const findCategoryBrand = async (_id: string) => {
+    const category: any = await getCategoryById(_id)
+    const brands: any = []
+    for(const brandId of category.brands){
+        const brandData = await brand.findById(brandId)
+        if(brandData) brands.push(brandData)
+    }
+    return brands
 }

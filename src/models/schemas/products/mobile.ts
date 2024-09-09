@@ -49,5 +49,5 @@ const mobileproduct = new Schema({
     }
 })
 
-const mobilePhone = model('products', mobileproduct)
+const mobilePhone = model('Mobile Phones products', mobileproduct)
 export default mobilePhone

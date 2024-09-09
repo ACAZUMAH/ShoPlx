@@ -25,7 +25,7 @@ const smartWatchProducts = new mongoose_1.Schema({
         type: String,
         required: [true, 'model name required']
     },
-    type: {
+    type_id: {
         type: String,
         required: [true, 'type required']
     },
@@ -55,5 +55,5 @@ const smartWatchProducts = new mongoose_1.Schema({
         default: Date.now()
     }
 });
-const smartWatch = (0, mongoose_1.model)('products', smartWatchProducts);
+const smartWatch = (0, mongoose_1.model)('smart watches products', smartWatchProducts);
 exports.default = smartWatch;

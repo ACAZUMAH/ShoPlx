@@ -60,5 +60,5 @@ const tabletProducts = new mongoose_1.Schema({
         default: Date.now()
     }
 });
-const tablets = (0, mongoose_1.model)('products', tabletProducts);
+const tablets = (0, mongoose_1.model)('tablets products', tabletProducts);
 exports.default = tablets;

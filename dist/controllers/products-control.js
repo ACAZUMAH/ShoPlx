@@ -3,51 +3,83 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postProducts = exports.getCategories = exports.getcatelogs = void 0;
+exports.getProductsOfcategory = exports.postProducts = exports.getTypes = exports.getBrands = exports.getCategories = exports.getcatelogs = void 0;
 const express_validator_1 = require("express-validator");
 const http_errors_1 = __importDefault(require("http-errors"));
 //import { products } from '../models/schemas/product';
 const catalog_1 = require("../services/helpers/products/catalog");
 const category_1 = require("../services/helpers/products/category");
 const mobileProducts_1 = require("../services/helpers/products/mobileProducts");
+const brands_1 = require("../services/helpers/products/brands");
+const types_1 = require("../services/helpers/products/types");
 /**
- * getting all the catalogs
+ * control for getting all the catalogs
  * @param req - Request
  * @param res - Response
  * @returns all catalogs
  */
-const getcatelogs = async (req, res) => {
+const getcatelogs = async (_req, _res) => {
     const catalogs = await (0, catalog_1.getAllCatalogs)();
-    return res.status(200).json({ success: true, data: catalogs });
+    return _res.status(200).json({ success: true, data: catalogs });
 };
 exports.getcatelogs = getcatelogs;
 /**
- * getting all categories
+ * control for getting all categories in a catalog using the catalog id
  * @param req - Request
  * @param res - Response
  * @returns all categories
  */
-const getCategories = async (req, res) => {
-    const { _id } = req.query;
+const getCategories = async (_req, _res) => {
+    const { _id } = _req.query;
     const categories = await (0, category_1.findcategory)(_id);
-    return res.status(200).json({ success: true, data: categories });
+    return _res.status(200).json({ success: true, data: categories });
 };
 exports.getCategories = getCategories;
 /**
- * post products to the database
+ * control for getting all brands of a category using the category id
+ * @param req - Request
+ * @param res - Response
+ * @returns all brands
+ */
+const getBrands = async (_req, _res) => {
+    const { _id } = _req.query;
+    const brands = await (0, brands_1.findCategoryBrand)(_id);
+    return _res.status(200).json({ success: true, data: brands });
+};
+exports.getBrands = getBrands;
+/**
+ * control for getting all types of a category using the category id
+ * @param _req - Request
+ * @param _res - Response
+ * @returns all types
+ */
+const getTypes = async (_req, _res) => {
+    const { _id } = _req.query;
+    const types = await (0, types_1.findCategoryType)(_id);
+    return _res.status(200).json({ success: true, data: types });
+};
+exports.getTypes = getTypes;
+/**
+ * a control for posting  products to the database
  * @param req - Request
  * @param res - Response
  * @return success message
  * @throws error if input is invalid
  */
-const postProducts = async (req, res) => {
-    const errors = (0, express_validator_1.validationResult)(req);
+const postProducts = async (_req, _res) => {
+    const errors = (0, express_validator_1.validationResult)(_req);
     if (!errors.isEmpty())
         throw new http_errors_1.default.BadRequest(errors.array()[0].msg);
-    if (await (0, mobileProducts_1.createMbileProuct)(req))
-        return res.status(200).json({ success: true });
+    if (await (0, mobileProducts_1.createMbileProuct)(_req))
+        return _res.status(200).json({ success: true });
 };
 exports.postProducts = postProducts;
+const getProductsOfcategory = async (_req, _res) => {
+    const { _id } = _req.query;
+    const products = await (0, category_1.findProductsOfcategory)(_id);
+    return _res.status(200).json({ success: true, data: products });
+};
+exports.getProductsOfcategory = getProductsOfcategory;
 // export const getAllProductsStatic = async (req: Request, res: Response) => {
 //     const product = await products.find({}).sort('created_At').limit(40)
 //     res.status(200).json({ sucess: true, data: product, nbHits: product.length})

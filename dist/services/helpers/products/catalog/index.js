@@ -11,7 +11,13 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @returns all catalogs
  */
 const getAllCatalogs = async () => {
-    return await catalog_1.default.find({ $or: [{ name: 'Electronics' }, { name: 'Phones & Tablets' }, { name: 'Home,Appliances & furniture' }] }, '-sub_categories');
+    return await catalog_1.default.find({
+        $or: [
+            { name: "Electronics" },
+            { name: "Phones & Tablets" },
+            { name: "Home,Appliances & furniture" },
+        ],
+    });
 };
 exports.getAllCatalogs = getAllCatalogs;
 /**
@@ -23,7 +29,7 @@ exports.getAllCatalogs = getAllCatalogs;
 const getCatelogById = async (id) => {
     const cat = await catalog_1.default.findById(id);
     if (!cat)
-        throw new http_errors_1.default.BadRequest('No catalog with this Id');
+        throw new http_errors_1.default.BadRequest("No catalog with this Id");
     return cat;
 };
 exports.getCatelogById = getCatelogById;
@@ -34,8 +40,8 @@ exports.getCatelogById = getCatelogById;
  * @throws Error when no catalog with such name exist
  */
 const getCatelogByName = async (name) => {
-    if (!await catalog_1.default.findOne({ name })) {
-        throw new http_errors_1.default.BadRequest('category not found');
+    if (!(await catalog_1.default.findOne({ name }))) {
+        throw new http_errors_1.default.BadRequest("category not found");
     }
     return catalog_1.default.findOne({ name });
 };
