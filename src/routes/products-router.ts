@@ -6,7 +6,8 @@ import { getcatelogs,
     getCategories,
     getBrands,
     getTypes, 
-    getProductsOfcategory} from "../controllers/products-control";
+    getProductsOfcategory,
+    getProductsOfCatalog} from "../controllers/products-control";
 import { vallidateMobileProduct } from "../middleware/product-validation";
 
 const router = Router()
@@ -16,6 +17,7 @@ router.route('/category').get(getCategories)
 router.route('/brands').get(getBrands)
 router.route('/types').get(getTypes)
 router.route('/category-products').get(getProductsOfcategory)
+router.route('/catalog-products').get(getProductsOfCatalog)
 router.route('/post-product')
 .post(checkSchema(vallidateMobileProduct),verifyToken, postProducts)
 

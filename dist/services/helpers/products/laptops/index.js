@@ -13,8 +13,9 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @throws error when laptop not found
  */
 const findLaptopProductById = async (_id) => {
-    if (!await laptops_1.default.exists({ _id }))
+    const product = await laptops_1.default.findById(_id);
+    if (!product)
         throw new http_errors_1.default.BadRequest('laptop not found');
-    return laptops_1.default.findById(_id);
+    return product;
 };
 exports.findLaptopProductById = findLaptopProductById;

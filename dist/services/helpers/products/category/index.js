@@ -12,9 +12,10 @@ const printers_scanners_1 = require("../printers-scanners");
 const musicEquipments_1 = require("../musicEquipments");
 const headphones_1 = require("../headphones");
 const getCategoryById = async (_id) => {
-    if (!(await category_1.default.exists({ _id })))
+    const cat = await category_1.default.findById(_id);
+    if (!cat)
         throw new http_errors_1.default.BadRequest("category not found");
-    return category_1.default.findById(_id);
+    return cat;
 };
 exports.getCategoryById = getCategoryById;
 /**
@@ -26,12 +27,7 @@ const findcategory = async (_id) => {
     const catalogy = await (0, catalog_1.getCatelogById)(_id);
     const categories = [];
     for (const categoryId of catalogy.sub_categories) {
-        const categoryData = await category_1.default.findById(categoryId /*{
-        parent_catalog: 0,
-        brands: 0,
-        products_Ids: 0,
-        types: 0,
-      }*/);
+        const categoryData = await category_1.default.findById(categoryId);
         if (categoryData)
             categories.push(categoryData);
     }

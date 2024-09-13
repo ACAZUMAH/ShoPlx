@@ -13,8 +13,9 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @throws error when headphone not found
  */
 const findHeadphoneProductById = async (_id) => {
-    if (!await headphones_1.default.exists({ _id }))
+    const product = await headphones_1.default.findById(_id);
+    if (!product)
         throw new http_errors_1.default.BadRequest('headphone not found');
-    return headphones_1.default.findById(_id);
+    return product;
 };
 exports.findHeadphoneProductById = findHeadphoneProductById;

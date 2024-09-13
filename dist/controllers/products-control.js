@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductsOfcategory = exports.postProducts = exports.getTypes = exports.getBrands = exports.getCategories = exports.getcatelogs = void 0;
+exports.getProductsOfcategory = exports.getProductsOfCatalog = exports.postProducts = exports.getTypes = exports.getBrands = exports.getCategories = exports.getcatelogs = void 0;
 const express_validator_1 = require("express-validator");
 const http_errors_1 = __importDefault(require("http-errors"));
 //import { products } from '../models/schemas/product';
@@ -70,10 +70,28 @@ const postProducts = async (_req, _res) => {
     const errors = (0, express_validator_1.validationResult)(_req);
     if (!errors.isEmpty())
         throw new http_errors_1.default.BadRequest(errors.array()[0].msg);
-    if (await (0, mobileProducts_1.createMbileProuct)(_req))
+    if (await (0, mobileProducts_1.createMobileProuct)(_req))
         return _res.status(200).json({ success: true });
 };
 exports.postProducts = postProducts;
+/**
+ * control for getting all products in a category using the category id
+ * @param req - Request
+ * @param res - Response
+ * @returns all products in each catalog
+ */
+const getProductsOfCatalog = async (_req, _res) => {
+    const { _id } = _req.query;
+    const products = await (0, catalog_1.findCatelogProducts)(_id);
+    return _res.status(200).json({ success: true, data: products });
+};
+exports.getProductsOfCatalog = getProductsOfCatalog;
+/**
+ * control for getting all products in a category using the category id
+ * @param req - Request
+ * @param res - Response
+ * @returns all products in each category
+ */
 const getProductsOfcategory = async (_req, _res) => {
     const { _id } = _req.query;
     const products = await (0, category_1.findProductsOfcategory)(_id);

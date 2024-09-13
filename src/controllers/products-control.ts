@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import createError from 'http-errors';
 //import { products } from '../models/schemas/product';
-import { getAllCatalogs  } from '../services/helpers/products/catalog';
+import { getAllCatalogs, findCatelogProducts  } from '../services/helpers/products/catalog';
 import { findcategory, findProductsOfcategory } from "../services/helpers/products/category";
-import { createMbileProuct } from "../services/helpers/products/mobileProducts";
+import { createMobileProuct } from "../services/helpers/products/mobileProducts";
 import { findCategoryBrand } from "../services/helpers/products/brands";
 import { findCategoryType } from "../services/helpers/products/types";
 type queryType = {
@@ -69,10 +69,28 @@ export const postProducts = async (_req:Request, _res:Response) =>{
     const errors = validationResult(_req)
     if(!errors.isEmpty())
         throw new createError.BadRequest(errors.array()[0].msg)
-    if(await createMbileProuct(_req))
+    if(await createMobileProuct(_req))
         return _res.status(200).json({ success: true })
 }
 
+/**
+ * control for getting all products in a category using the category id
+ * @param req - Request
+ * @param res - Response
+ * @returns all products in each catalog
+ */
+export const getProductsOfCatalog = async (_req: Request, _res: Response) =>{
+    const { _id } = _req.query
+    const products = await findCatelogProducts(_id as string)
+    return _res.status(200).json({ success: true, data: products })
+}
+
+/**
+ * control for getting all products in a category using the category id
+ * @param req - Request
+ * @param res - Response
+ * @returns all products in each category
+ */
 export const getProductsOfcategory = async (_req: Request, _res: Response) =>{
     const { _id } = _req.query
     const products = await findProductsOfcategory(_id as string)
