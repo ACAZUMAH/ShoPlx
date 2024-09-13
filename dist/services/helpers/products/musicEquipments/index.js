@@ -13,8 +13,9 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @throws error when music equipment not found
  */
 const findMusicEquipProductById = async (_id) => {
-    if (!await musicEquip_1.default.exists({ _id }))
+    const product = await musicEquip_1.default.findById(_id);
+    if (!product)
         throw new http_errors_1.default.BadRequest('music equipment not found');
-    return musicEquip_1.default.findById(_id);
+    return product;
 };
 exports.findMusicEquipProductById = findMusicEquipProductById;

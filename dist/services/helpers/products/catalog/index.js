@@ -3,9 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCatelogByName = exports.getCatelogById = exports.getAllCatalogs = void 0;
+exports.findCatelogProducts = exports.getCatelogByName = exports.getCatelogById = exports.getAllCatalogs = void 0;
 const catalog_1 = __importDefault(require("../../../../models/schemas/catalog"));
 const http_errors_1 = __importDefault(require("http-errors"));
+const category_1 = require("../category");
+const headphones_1 = require("../headphones");
+const laptops_1 = require("../laptops");
+const musicEquipments_1 = require("../musicEquipments");
+const printers_scanners_1 = require("../printers-scanners");
+const mobileProducts_1 = require("../mobileProducts");
+const tablets_1 = require("../tablets");
 /**
  * get all catalogs from the database
  * @returns all catalogs
@@ -46,3 +53,67 @@ const getCatelogByName = async (name) => {
     return catalog_1.default.findOne({ name });
 };
 exports.getCatelogByName = getCatelogByName;
+/**
+ * finds all the products in a particular catalog
+ * @param id - catalog id
+ * @returns products in the catalog
+ * @throws Error when no catalog with such id exist
+ */
+const findCatelogProducts = async (id) => {
+    const catalog = await (0, exports.getCatelogById)(id);
+    const productList = [];
+    for (const category of catalog.sub_categories) {
+        const categoryData = await (0, category_1.getCategoryById)(category);
+        if (categoryData.name === "computers & laptops") {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, laptops_1.findLaptopProductById)(productId);
+                if (products)
+                    productList.push(products);
+            }
+        }
+        else if (categoryData.name === "Printers & Scanners") {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, printers_scanners_1.findPrinterScannerProductById)(productId);
+                if (products)
+                    productList.push(products);
+            }
+        }
+        else if (categoryData.name === "Audio & Music Equipments") {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, musicEquipments_1.findMusicEquipProductById)(productId);
+                if (products)
+                    productList.push(products);
+            }
+        }
+        else if (categoryData.name === "Headphones") {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, headphones_1.findHeadphoneProductById)(productId);
+                if (products)
+                    productList.push(products);
+            }
+        }
+        else if (categoryData.name === "mobile phones") {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, mobileProducts_1.findMobileProductById)(productId);
+                if (products)
+                    productList.push(products);
+            }
+        }
+        else if (categoryData.name === "tablets") {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, tablets_1.findTabletProductById)(productId);
+            }
+        }
+        // const product = await findHeadphoneProductById(product_id) ||
+        // await findLaptopProductById(product_id) ||
+        // await findMusicEquipProductById(product_id) ||
+        // await findPrinterScannerProductById(product_id) ||
+        // await findMobileProductById(product_id) ||
+        // await findSmartWatchProductById(product_id) ||
+        // await findTabletProductById(product_id) ||
+        // await findAccessoryProductById(product_id)
+        // products.push(product)
+    }
+    return productList;
+};
+exports.findCatelogProducts = findCatelogProducts;

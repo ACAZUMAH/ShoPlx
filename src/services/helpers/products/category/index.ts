@@ -6,11 +6,16 @@ import { findLaptopProductById } from "../laptops";
 import { findPrinterScannerProductById } from "../printers-scanners";
 import { findMusicEquipProductById } from "../musicEquipments";
 import { findHeadphoneProductById } from "../headphones";
+import { findMobileProductById } from "../mobileProducts";
+import { findSmartWatchProductById } from "../smart-watches";
+import { findTabletProductById } from "../tablets";
+import { findAccessoryProductById } from "../accessory";
 
 export const getCategoryById = async (_id: string | Types.ObjectId) => {
-  if (!(await category.exists({ _id })))
+  const cat = await category.findById(_id);
+  if (!cat)
     throw new createError.BadRequest("category not found");
-  return category.findById(_id);
+  return cat;
 };
 
 /**
@@ -18,18 +23,11 @@ export const getCategoryById = async (_id: string | Types.ObjectId) => {
  * @param _id - id of the catalog the category belongs to
  * @returns all the categories in the catalog
  */
-export const findcategory = async (_id: string) => {
+export const findcategory = async (_id: string | Types.ObjectId) => {
   const catalogy = await getCatelogById(_id);
   const categories: any = [];
   for (const categoryId of catalogy.sub_categories) {
-    const categoryData = await category.findById(
-      categoryId /*{
-      parent_catalog: 0,
-      brands: 0,
-      products_Ids: 0,
-      types: 0,
-    }*/
-    );
+    const categoryData = await category.findById( categoryId );
     if (categoryData) categories.push(categoryData);
   }
   return categories;
@@ -42,10 +40,7 @@ export const findcategory = async (_id: string) => {
  * @returns true
  * @throws error when category not found
  */
-export const findCategoryByIdAndUpdate = async (
-  _id: string,
-  product_id?: Types.ObjectId
-) => {
+export const findCategoryByIdAndUpdate = async ( _id: string,product_id?: Types.ObjectId) => {
   if (!(await category.exists({ _id })))
     throw new createError.BadRequest("category not found");
   if (product_id) {
@@ -85,6 +80,23 @@ export const findProductsOfcategory = async (_id: string) => {
     for (const productId of cat.products_Ids) {
       const products = await findHeadphoneProductById(productId)
       if (products) productList.push(products);
+    }
+  } else if (cat.name === "mobile phones") {
+    for (const productId of cat.products_Ids) {
+      const products = await findMobileProductById(productId);
+      if (products) productList.push(products);
+    }
+  } else if (cat.name === "tablets") {
+    for (const productId of cat.products_Ids) {
+      const products = await findTabletProductById(productId);
+    }
+  } else if (cat.name === 'smart watches'){
+    for (const productId of cat.products_Ids) {
+      const products = await findSmartWatchProductById(productId);
+    }
+  } else if (cat.name === 'accessories') {
+    for (const productId of cat.products_Ids) {
+      const products = await findAccessoryProductById(productId);
     }
   }
   return productList;

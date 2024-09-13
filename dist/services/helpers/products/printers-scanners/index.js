@@ -13,8 +13,9 @@ const http_errors_1 = __importDefault(require("http-errors"));
  * @throws error when printer scanner not found
  */
 const findPrinterScannerProductById = async (_id) => {
-    if (!await printers_1.default.exists({ _id }))
+    const product = await printers_1.default.findById(_id);
+    if (!product)
         throw new http_errors_1.default.BadRequest('printer scanner not found');
-    return printers_1.default.findById(_id);
+    return product;
 };
 exports.findPrinterScannerProductById = findPrinterScannerProductById;
