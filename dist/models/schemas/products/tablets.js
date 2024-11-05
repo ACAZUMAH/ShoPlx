@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const tabletProducts = new mongoose_1.Schema({
+    user_id: {
+        type: String
+    },
     category_id: {
         type: String,
         required: [true, 'category name required']

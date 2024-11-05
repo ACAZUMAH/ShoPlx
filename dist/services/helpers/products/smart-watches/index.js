@@ -15,7 +15,7 @@ const http_errors_1 = __importDefault(require("http-errors"));
 const findSmartWatchProductById = async (_id) => {
     const product = await smartWatch_1.default.findById(_id);
     if (!product)
-        throw new http_errors_1.default.BadRequest('smart watch not found');
+        throw new http_errors_1.default.BadRequest('products not found');
     return product;
 };
 exports.findSmartWatchProductById = findSmartWatchProductById;

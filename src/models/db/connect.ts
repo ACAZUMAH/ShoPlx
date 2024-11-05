@@ -1,6 +1,6 @@
 import { connect } from 'mongoose'
 
-const connectDB = (url: string) => {
+const connectDB = async (url: string) => {
   return connect(url, {
     autoIndex: true,
   })

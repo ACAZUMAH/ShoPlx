@@ -11,8 +11,10 @@ const headphones_1 = require("../headphones");
 const laptops_1 = require("../laptops");
 const musicEquipments_1 = require("../musicEquipments");
 const printers_scanners_1 = require("../printers-scanners");
-const mobileProducts_1 = require("../mobileProducts");
+const mobile_1 = require("../mobile");
+const smart_watches_1 = require("../smart-watches");
 const tablets_1 = require("../tablets");
+const accessory_1 = require("../accessory");
 /**
  * get all catalogs from the database
  * @returns all catalogs
@@ -94,7 +96,7 @@ const findCatelogProducts = async (id) => {
         }
         else if (categoryData.name === "mobile phones") {
             for (const productId of categoryData.products_Ids) {
-                const products = await (0, mobileProducts_1.findMobileProductById)(productId);
+                const products = await (0, mobile_1.findMobileProductById)(productId);
                 if (products)
                     productList.push(products);
             }
@@ -104,15 +106,16 @@ const findCatelogProducts = async (id) => {
                 const products = await (0, tablets_1.findTabletProductById)(productId);
             }
         }
-        // const product = await findHeadphoneProductById(product_id) ||
-        // await findLaptopProductById(product_id) ||
-        // await findMusicEquipProductById(product_id) ||
-        // await findPrinterScannerProductById(product_id) ||
-        // await findMobileProductById(product_id) ||
-        // await findSmartWatchProductById(product_id) ||
-        // await findTabletProductById(product_id) ||
-        // await findAccessoryProductById(product_id)
-        // products.push(product)
+        else if (categoryData.name === 'smart watches') {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, smart_watches_1.findSmartWatchProductById)(productId);
+            }
+        }
+        else if (categoryData.name === 'accessories') {
+            for (const productId of categoryData.products_Ids) {
+                const products = await (0, accessory_1.findAccessoryProductById)(productId);
+            }
+        }
     }
     return productList;
 };

@@ -15,7 +15,7 @@ const http_errors_1 = __importDefault(require("http-errors"));
 const findTabletProductById = async (_id) => {
     const product = await tablets_1.default.findById(_id);
     if (!product)
-        throw new http_errors_1.default.BadRequest('tablet not found');
+        throw new http_errors_1.default.BadRequest('products not found');
     return product;
 };
 exports.findTabletProductById = findTabletProductById;

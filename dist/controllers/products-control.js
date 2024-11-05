@@ -3,15 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductsOfcategory = exports.getProductsOfCatalog = exports.postProducts = exports.getTypes = exports.getBrands = exports.getCategories = exports.getcatelogs = void 0;
+exports.postProducts = exports.getProductsOfcategory = exports.getProductsOfCatalog = exports.getTypes = exports.getBrands = exports.getCategories = exports.getcatelogs = void 0;
 const express_validator_1 = require("express-validator");
 const http_errors_1 = __importDefault(require("http-errors"));
-//import { products } from '../models/schemas/product';
 const catalog_1 = require("../services/helpers/products/catalog");
 const category_1 = require("../services/helpers/products/category");
-const mobileProducts_1 = require("../services/helpers/products/mobileProducts");
 const brands_1 = require("../services/helpers/products/brands");
 const types_1 = require("../services/helpers/products/types");
+const general_1 = require("@/services/helpers/general");
 /**
  * control for getting all the catalogs
  * @param req - Request
@@ -60,21 +59,6 @@ const getTypes = async (_req, _res) => {
 };
 exports.getTypes = getTypes;
 /**
- * a control for posting  products to the database
- * @param req - Request
- * @param res - Response
- * @return success message
- * @throws error if input is invalid
- */
-const postProducts = async (_req, _res) => {
-    const errors = (0, express_validator_1.validationResult)(_req);
-    if (!errors.isEmpty())
-        throw new http_errors_1.default.BadRequest(errors.array()[0].msg);
-    if (await (0, mobileProducts_1.createMobileProuct)(_req))
-        return _res.status(200).json({ success: true });
-};
-exports.postProducts = postProducts;
-/**
  * control for getting all products in a category using the category id
  * @param req - Request
  * @param res - Response
@@ -98,6 +82,20 @@ const getProductsOfcategory = async (_req, _res) => {
     return _res.status(200).json({ success: true, data: products });
 };
 exports.getProductsOfcategory = getProductsOfcategory;
+/**
+ * a control for posting  products to the database
+ * @param req - Request
+ * @param res - Response
+ * @return success message
+ * @throws error if input is invalid
+ */
+const postProducts = async (_req, _res) => {
+    const errors = (0, express_validator_1.validationResult)(_req);
+    if (!errors.isEmpty())
+        throw new http_errors_1.default.BadRequest(errors.array()[0].msg);
+    await (0, general_1.filterAndPost)(_req, _res);
+};
+exports.postProducts = postProducts;
 // export const getAllProductsStatic = async (req: Request, res: Response) => {
 //     const product = await products.find({}).sort('created_At').limit(40)
 //     res.status(200).json({ sucess: true, data: product, nbHits: product.length})

@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const laptopProducts = new mongoose_1.Schema({
+    user_id: {
+        type: String
+    },
     category_id: {
         type: String,
         required: [true, 'category name required']
@@ -69,6 +72,14 @@ const laptopProducts = new mongoose_1.Schema({
         type: String,
         required: [true, 'description required']
     },
+    price: {
+        type: Number,
+        required: [true, 'price required']
+    },
+    phone: {
+        type: String,
+        required: [true, 'phone number required']
+    }
 });
 const laptop = (0, mongoose_1.model)('Laptops products', laptopProducts);
 exports.default = laptop;

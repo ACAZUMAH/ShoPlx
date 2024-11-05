@@ -11,6 +11,10 @@ const laptops_1 = require("../laptops");
 const printers_scanners_1 = require("../printers-scanners");
 const musicEquipments_1 = require("../musicEquipments");
 const headphones_1 = require("../headphones");
+const mobile_1 = require("../mobile");
+const smart_watches_1 = require("../smart-watches");
+const tablets_1 = require("../tablets");
+const accessory_1 = require("../accessory");
 const getCategoryById = async (_id) => {
     const cat = await category_1.default.findById(_id);
     if (!cat)
@@ -88,6 +92,28 @@ const findProductsOfcategory = async (_id) => {
             const products = await (0, headphones_1.findHeadphoneProductById)(productId);
             if (products)
                 productList.push(products);
+        }
+    }
+    else if (cat.name === "mobile phones") {
+        for (const productId of cat.products_Ids) {
+            const products = await (0, mobile_1.findMobileProductById)(productId);
+            if (products)
+                productList.push(products);
+        }
+    }
+    else if (cat.name === "tablets") {
+        for (const productId of cat.products_Ids) {
+            const products = await (0, tablets_1.findTabletProductById)(productId);
+        }
+    }
+    else if (cat.name === 'smart watches') {
+        for (const productId of cat.products_Ids) {
+            const products = await (0, smart_watches_1.findSmartWatchProductById)(productId);
+        }
+    }
+    else if (cat.name === 'accessories') {
+        for (const productId of cat.products_Ids) {
+            const products = await (0, accessory_1.findAccessoryProductById)(productId);
         }
     }
     return productList;

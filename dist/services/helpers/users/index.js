@@ -24,12 +24,12 @@ const createUser = async (full_name, email, telephone, whatsapp_no, password) =>
         email,
         telephone,
         whatsapp_no,
-        password: hash
+        password: hash,
     });
     if (!newUser) {
-        throw new http_errors_1.default.InternalServerError('unable to create account');
+        throw new http_errors_1.default.InternalServerError("unable to create account");
     }
-    return newUser._id;
+    return newUser;
 };
 exports.createUser = createUser;
 /**
@@ -39,7 +39,7 @@ exports.createUser = createUser;
  */
 const checkUserExist = async (email) => {
     if (await user_1.default.findOne({ email })) {
-        throw new http_errors_1.default.BadRequest('User already exists');
+        throw new http_errors_1.default.BadRequest("User already exists");
     }
 };
 exports.checkUserExist = checkUserExist;
@@ -50,8 +50,8 @@ exports.checkUserExist = checkUserExist;
  * @throws error when user not found
  */
 const findUserById = async (_id) => {
-    if (!await user_1.default.findById(_id)) {
-        throw new http_errors_1.default.BadRequest('User not found');
+    if (!(await user_1.default.findById(_id))) {
+        throw new http_errors_1.default.BadRequest("User not found");
     }
     return await user_1.default.findById(_id);
 };
@@ -68,8 +68,8 @@ exports.findUserById = findUserById;
  */
 const findOneAndUpdate = async (_id, full_name, email, telephone, whatsup) => {
     if (_id) {
-        if (!await user_1.default.findById(_id)) {
-            throw new http_errors_1.default.BadRequest('User not found');
+        if (!(await user_1.default.findById(_id))) {
+            throw new http_errors_1.default.BadRequest("User not found");
         }
         await user_1.default.findByIdAndUpdate({ _id: _id }, { isAuthenticated: true });
     }
