@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
         throw new http_errors_1.default.BadRequest(errors.array()[0].msg);
     await (0, users_1.checkUserExist)(email);
     const user = await (0, users_1.createUser)(full_name, email, telephone, whatsapp_no, password);
-    const email_token = (0, gen_tokens_1.genAccesToken)(user);
+    const email_token = (0, gen_tokens_1.genAccesToken)(user._id, user.email);
     (0, send_verification_code_1.default)(email, email_token);
     return res.status(201).json({ success: true, message: 'comfirmation email sent' });
 };
@@ -35,11 +35,11 @@ exports.registerUser = registerUser;
  * @returns send refresh token
  * @throws
  */
-const confirmUser = async (req, res) => {
-    const _id = req.user.user_id;
+const confirmUser = async (_req, _res) => {
+    const { _id, email } = _req.user;
     await (0, users_1.findOneAndUpdate)(_id);
-    const refresh = (0, gen_tokens_1.genRefreshToken)(_id);
-    res.status(200).json({ token: refresh });
+    const refresh = (0, gen_tokens_1.genRefreshToken)(_id, email);
+    _res.status(200).json({ token: refresh });
 };
 exports.confirmUser = confirmUser;
 /**
@@ -48,9 +48,9 @@ exports.confirmUser = confirmUser;
  * @param res - response
  * @returns user
  */
-const getUser = async (req, res) => {
-    const _id = req.user.user_id;
+const getUser = async (_req, _res) => {
+    const _id = _req.user._id;
     const User = await (0, users_1.findUserById)(_id);
-    res.status(200).json({ success: true, data: User });
+    _res.status(200).json({ success: true, data: User });
 };
 exports.getUser = getUser;

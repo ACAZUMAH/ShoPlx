@@ -1,17 +1,10 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
-import createError from 'http-errors';
-//import { products } from '../models/schemas/product';
-import { getAllCatalogs, findCatelogProducts  } from '../services/helpers/products/catalog';
-import { findcategory, findProductsOfcategory } from "../services/helpers/products/category";
-import { createMobileProuct } from "../services/helpers/products/mobileProducts";
-import { findCategoryBrand } from "../services/helpers/products/brands";
-import { findCategoryType } from "../services/helpers/products/types";
-type queryType = {
-    featured?: boolean,
-    company?: string,
-    name?: object
-}
+import createHttpError from "http-errors";
+import { getAllCatalogs, findCatelogProducts  } from '../helpers/products/catalog';
+import { findcategory, findProductsOfcategory } from "../helpers/products/category";
+import { findCategoryBrand } from "../helpers/products/brands";
+import { findCategoryType } from "../helpers/products/types";
+import { filterAndPost } from "../helpers/general/index";
 
 /**
  * control for getting all the catalogs
@@ -58,20 +51,6 @@ export const getTypes = async (_req: Request, _res: Response) =>{
     const types = await findCategoryType(_id as string)
     return _res.status(200).json({ success: true, data: types })
 }
-/**
- * a control for posting  products to the database
- * @param req - Request 
- * @param res - Response
- * @return success message
- * @throws error if input is invalid
- */
-export const postProducts = async (_req:Request, _res:Response) =>{
-    const errors = validationResult(_req)
-    if(!errors.isEmpty())
-        throw new createError.BadRequest(errors.array()[0].msg)
-    if(await createMobileProuct(_req))
-        return _res.status(200).json({ success: true })
-}
 
 /**
  * control for getting all products in a category using the category id
@@ -97,9 +76,29 @@ export const getProductsOfcategory = async (_req: Request, _res: Response) =>{
     return _res.status(200).json({ success: true, data: products })
 }
 
+/**
+ * a control for posting  products to the database
+ * @param req - Request 
+ * @param res - Response
+ * @return success message
+ */
+export const postProducts = async (_req:Request, _res:Response) =>{
+    const post = await filterAndPost(_req, _res)
+    if(!post)
+        throw new createHttpError.BadRequest('unable post product')
+}
 
+export const updateProduct = async (_req: Request, _res: Response) =>{
+}
 
+export const patchProduct = async (_req: Request, _res: Response) =>{
+}
 
+export const deleteProduct = async (_req: Request, _res: Response) =>{
+}
+
+export const searchProducts = async (_req: Request, _res: Response) =>{
+}
 
 // export const getAllProductsStatic = async (req: Request, res: Response) => {
 //     const product = await products.find({}).sort('created_At').limit(40)
@@ -119,7 +118,7 @@ export const getProductsOfcategory = async (_req: Request, _res: Response) =>{
 //     const queryObject: queryType = {}
 //     if(name){
 //         queryObject.name = { $regex: name as string, $options: 'i'}
-//     }
+//     } 
 //     if(featured){
 //         queryObject.featured = featured === 'true' ? true : false
 //     }

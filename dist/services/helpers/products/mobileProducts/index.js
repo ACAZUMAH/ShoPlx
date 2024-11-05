@@ -16,6 +16,7 @@ const brands_1 = require("../brands");
 const createMobileProuct = async (req) => {
     const { category_id, location, pictures, brand_id, model, condition, secondCondition, color, exchange, description, price, phone } = req.body;
     const product = await mobile_1.default.create({
+        user_id: req.user._id,
         category_id,
         location,
         pictures_ref: pictures,
@@ -44,9 +45,8 @@ exports.createMobileProuct = createMobileProuct;
  */
 const findMobileProductById = async (_id) => {
     const product = await mobile_1.default.findById(_id);
-    console.log(product);
     if (!product)
-        throw new http_errors_1.default.BadRequest('no products not found');
+        throw new http_errors_1.default.BadRequest('products not found');
     return product;
 };
 exports.findMobileProductById = findMobileProductById;

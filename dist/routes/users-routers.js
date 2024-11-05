@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const userValidationSchema_1 = require("../middleware/userValidationSchema");
+const userValidationSchema_1 = require("../middleware/validators/userValidationSchema");
 const users_control_1 = require("../controllers/users-control");
 const gen_tokens_1 = require("../services/jwtservices/gen-tokens");
 const router = (0, express_1.Router)();

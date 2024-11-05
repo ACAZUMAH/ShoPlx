@@ -13,8 +13,8 @@ const secret = process.env.JWT_SECRET;
  * @param id - user id
  * @returns token
  */
-const genAccesToken = (id) => {
-    const payload = { user_id: id };
+const genAccesToken = (id, email) => {
+    const payload = { _id: id, email: email };
     return jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '2mins' });
 };
 exports.genAccesToken = genAccesToken;
@@ -25,13 +25,13 @@ exports.genAccesToken = genAccesToken;
  * @param next - next function
  * @returns void
  */
-const verifyEmailToken = (req, res, next) => {
-    const token = req.params.token;
+const verifyEmailToken = (_req, _res, next) => {
+    const token = _req.params.token;
     if (token) {
         jsonwebtoken_1.default.verify(token, secret, (err, user) => {
             if (err)
                 throw new http_errors_1.default.Forbidden('authentication failed!');
-            req.user = user;
+            _req.user = user;
             next();
         });
     }
@@ -42,8 +42,8 @@ exports.verifyEmailToken = verifyEmailToken;
  * @param id - user id
  * @returns token
  */
-const genRefreshToken = (id) => {
-    const payload = { user_id: id };
+const genRefreshToken = (id, email) => {
+    const payload = { _id: id, email: email };
     return jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '50d' });
 };
 exports.genRefreshToken = genRefreshToken;
@@ -54,15 +54,15 @@ exports.genRefreshToken = genRefreshToken;
  * @param next - next function
  * @returns void
  */
-const verifyToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
+const verifyToken = (_req, _res, next) => {
+    const authHeader = _req.headers['authorization'];
     if (!authHeader)
         throw new http_errors_1.default.Unauthorized('Unauthorized');
     const token = authHeader.split(' ')[1];
     jsonwebtoken_1.default.verify(token, secret, (err, user) => {
         if (err)
             throw new http_errors_1.default.Unauthorized('Unauthorized');
-        req.user = user;
+        _req.user = user;
         next();
     });
 };

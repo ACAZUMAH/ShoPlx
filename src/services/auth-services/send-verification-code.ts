@@ -12,14 +12,25 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-const sendConfirmationEmail = (email: string,email_token: string) =>{
-    const url = `http://localhost:3500/api/v1/shoplx/confirm-email/${email_token}`
-    transporter.sendMail({
-        to: email,
-        subject: 'Confirm your email',
-        html: `Please click <a href="${url}">here</a> to confirm your email`
-    })
-}
 
-export default sendConfirmationEmail
+const sendVerificationOTP = async (email: string, otp: string) =>{
+    transporter.sendMail(
+        {
+            to: email,
+            subject: 'Verification code',
+            html: `Please your verification code is: ${otp}`
+        }
+    )
+};
+
+// const sendConfirmationEmail = (email: string,email_token: string) =>{
+//     const url = `http://localhost:3500/api/auth/email/${email_token}`
+//     transporter.sendMail({
+//         to: email,
+//         subject: 'Confirm your email',
+//         html: `Please click <a href="${url}">here</a> to confirm your email`
+//     })
+// }
+
+export default sendVerificationOTP
 

@@ -4,7 +4,7 @@ import usersRouter from './users-routers'
 
 const router = Router()
 
-router.use('/api/v1/shoplx',usersRouter)
-router.use('/api/v1/shoplx', poductsRouter)
+router.use('/api', usersRouter)
+//router.use('/api', poductsRouter)
 
 export default router
